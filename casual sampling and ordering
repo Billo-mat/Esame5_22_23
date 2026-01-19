@@ -6,3 +6,4 @@ sorted_sample = sampled_pigs.sort_values(by='dist_pig', ascending=True)
 # 5. Stampa del risultato (colonna borderMI)
 print("Valori di borderMI per i 5 cinghiali campionati (ordinati per dist_pig crescente):")
 print(sorted_sample['borderMI'])
+#gli indici sono quelli del file originale
