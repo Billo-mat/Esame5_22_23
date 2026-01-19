@@ -10,4 +10,4 @@ df_pigs = pd.read_csv('pigs.csv', index_col=0)
 df_pigs['pig_sighting'] = df_pigs['DETECTED'] == 1
 
 # Visualizzazione delle prime righe per verifica
-print(df_pigs[['PigType', 'DETECTED', 'pig_sighting']].head())
+print(df_pigs)
