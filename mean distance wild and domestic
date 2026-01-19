@@ -1,0 +1,23 @@
+import pandas as pd
+
+# 1. Caricamento del dataset
+df_pigs = pd.read_csv('pigs.csv', index_col=0)
+
+# 2. Filtriamo solo per i siti con avvistamento (DETECTED == 1)
+sighting_df = df_pigs[df_pigs['DETECTED'] == 1].copy()
+
+# 3. Definiamo i due gruppi
+# Wild Boar: tipo specifico
+wild_boars = sighting_df[sighting_df['PigType'] == 'wild boar']
+
+# Domesticated: usiamo .str.contains per includere "domesticated" e "domesticated - pot bellied"
+domesticated = sighting_df[sighting_df['PigType'].str.contains('domesticated', case=False, na=False)]
+
+# 4. Calcolo e stampa delle medie
+print("--- Wild Boars (Sightings) ---")
+print(f"Mean dist_boar: {wild_boars['dist_boar'].mean():.2f} m")
+print(f"Mean dist_pig:  {wild_boars['dist_pig'].mean():.2f} m\n")
+
+print("--- Domesticated (Sightings) ---")
+print(f"Mean dist_boar: {domesticated['dist_boar'].mean():.2f} m")
+print(f"Mean dist_pig:  {domesticated['dist_pig'].mean():.2f} m")
