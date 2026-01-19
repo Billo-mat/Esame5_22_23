@@ -1,0 +1,32 @@
+import pandas as pd
+import pymc as pm
+import arviz as az
+
+# 1. Caricamento e filtraggio dei dati
+df_pigs = pd.read_csv('pigs.csv', index_col=0)
+
+# Selezioniamo solo i valori di borderQC per i cinghiali selvatici
+wild_boar_qc = df_pigs[df_pigs['PigType'] == 'wild boar']['borderQC'].values
+
+# 2. Definizione del modello statistico con PyMC
+with pm.Model() as model:
+    # PRIOR: Media mu distribuita Normalmente
+    # mu ~ Normal(mean=170000, sigma=100000)
+    mu = pm.Normal('mu', mu=170000, sigma=100000)
+    
+    # PRIOR: Deviazione standard sigma distribuita Esponenzialmente
+    # sigma ~ Exponential(lambda=1)
+    sigma = pm.Exponential('sigma', lam=1)
+    
+    # LIKELIHOOD: La distanza osservata segue una distribuzione Normale
+    # borderQC ~ Normal(mu, sigma)
+    y_obs = pm.Normal('y_obs', mu=mu, sigma=sigma, observed=wild_boar_qc)
+    
+    # 3. Campionamento
+    # Eseguiamo l'inferenza per ottenere la distribuzione a posteriori
+    trace = pm.sample(2000, tune=1000, chains=2, return_inferencedata=True)
+
+# 4. Risultati
+# Stampiamo il sommario statistico della stima
+summary = az.summary(trace)
+print(summary)
