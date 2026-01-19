@@ -1,0 +1,26 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 1. Caricamento del dataset
+df_pigs = pd.read_csv('pigs.csv', index_col=0)
+
+# 2. Definizione delle colonne relative ai confini
+border_cols = ['borderMI', 'borderNY', 'borderQC']
+
+# 3. Creazione della figura
+plt.figure(figsize=(10, 6))
+
+# 4. Generazione degli istogrammi
+# Usiamo un ciclo per sovrapporre i tre istogrammi con una certa trasparenza (alpha)
+for col in border_cols:
+    plt.hist(df_pigs[col], bins=30, alpha=0.5, label=col)
+
+# 5. Aggiunta di titolo, etichette e legenda
+plt.title('Distribution of Distances from Borders')
+plt.xlabel('Distance (meters)')
+plt.ylabel('Frequency')
+plt.legend(title='Borders')
+
+# 6. Griglia e salvataggio
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
