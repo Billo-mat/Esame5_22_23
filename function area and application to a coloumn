@@ -1,0 +1,32 @@
+import math
+
+def area(r1: float, r2: float, r3: float) -> float:
+    """
+    Seleziona il raggio massimo tra tre (in metri) e restituisce l'area 
+    del cerchio in chilometri quadrati.
+
+    >>> area(1000.0, 2000.0, 3000.0)
+    28.274333882308138
+    """
+    # 1. Trova il raggio massimo in metri
+    max_r_m = max(r1, r2, r3)
+    
+    # 2. Converti il raggio in chilometri
+    r_km = max_r_m / 1000.0
+    
+    # 3. Calcola l'area: pi * r^2
+    return math.pi * (r_km ** 2)
+
+# Per verificare il test:
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+
+
+df_pigs['area'] = df_pigs.apply(
+    lambda row: area(row['borderMI'], row['borderNY'], row['borderQC']), 
+    axis=1
+)
+
+# Visualizzazione delle prime righe per conferma
+print(df_pigs[['borderMI', 'borderNY', 'borderQC', 'area']].head())
